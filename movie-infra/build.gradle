@@ -9,9 +9,10 @@ repositories {
 }
 
 dependencies {
-    implementation project(':movie-domain')  // ✅ movie-domain 모듈 참조
-    implementation 'org.springframework.boot:spring-boot-starter-web'  // ✅ 웹 애플리케이션 실행
-    implementation 'com.fasterxml.jackson.core:jackson-databind'  // ✅ JSON 처리
+    implementation project(':movie-domain')
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.postgresql:postgresql'
+    implementation 'org.hibernate:hibernate-core:6.1.0.Final'
 
     // Lombok 설정
     compileOnly 'org.projectlombok:lombok'
@@ -19,4 +20,11 @@ dependencies {
 
     // 테스트 의존성
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+bootJar {
+    enabled = false
+}
+jar {
+    enabled = true
 }
