@@ -24,7 +24,7 @@
 - IntelliJ Http Request
 
 ## Table Design
-![erd_movie](https://github.com/user-attachments/assets/6b72e0ea-bfb0-4d0c-8e45-ae443885d1fa)
+![erd_movie](https://github.com/user-attachments/assets/bf869a9b-09da-49db-888b-fbe9f53c7558)
 
 ## Architecture
 ```
@@ -37,10 +37,7 @@
  │
  ├── movie-app/                  → Application 계층 (Usercase)
  │   └── service
- │       ├── BookingService
- │       ├── MovieService
- │       ├── ScheduleService
- │       └── MemberService
+ │       └── MovieService
  │ 
  ├── movie-domain/               → domain 계층 (Entity)
  │   ├── entity
@@ -54,13 +51,12 @@
  │   │   ├── BookingStatus
  │   │   ├── MovieGenre
  │   │   └── MovieGrade
+ │   ├── repository
+ │   │   └── MovieRepository
  │   └── exception
  │ 
- └── movie-infra/                    → Infrastructure 계층 (실제 DB 연동)
-     ├── MemberRepository
-     ├── BookingRepository
-     ├── MovieRepository
-     ├── ScheduleRepository
-     ├── SeatRepository
-     └── TheaterRepository
+ └── movie-infra/                → Infrastructure 계층 (실제 DB 연동)
+     └── repository
+         ├── JpaMovieRepository
+         └── MovieRepositoryImpl
 ```
