@@ -20,7 +20,7 @@
 - Java (JVM 21)
 - JPA
 - Gradle
-- Postgresql
+- MySQL
 - IntelliJ Http Request
 
 ## Table Design
