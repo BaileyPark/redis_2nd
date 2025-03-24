@@ -37,7 +37,8 @@
  │
  ├── movie-app/                  → Application 계층 (Usercase)
  │   └── service
- │       └── MovieService
+ │       ├── MovieService
+ │       └── ScheduleService
  │ 
  ├── movie-domain/               → domain 계층 (Entity)
  │   ├── entity
@@ -52,11 +53,16 @@
  │   │   ├── MovieGenre
  │   │   └── MovieGrade
  │   ├── repository
- │   │   └── MovieRepository
+ │   │   ├── MovieRepository
+ │   │   └── ScheduleRepository
  │   └── exception
+ │       ├── movie
+ │       └── schedule
  │ 
  └── movie-infra/                → Infrastructure 계층 (실제 DB 연동)
      └── repository
          ├── JpaMovieRepository
          └── MovieRepositoryImpl
+         ├── JpaScheduleRepository
+         └── ScheduleRepositoryImpl
 ```
