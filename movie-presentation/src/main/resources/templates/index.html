@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>메인 페이지</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .movie-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 가로 3개씩 */
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .movie-card {
+            border: 1px solid #ccc;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            background-color: #fff;
+        }
+
+        .movie-thumbnail img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .time-slots {
+            margin-top: 10px;
+        }
+
+        .time-slots button {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("/api/v1/schedule")
+                .then(response => response.json())
+                .then(data => {
+                    const movieList = document.querySelector(".movie-list");
+                    movieList.innerHTML = "";
+
+                    // key: title + theaterName
+                    const scheduleMap = new Map();
+
+                    data.forEach(schedule => {
+                        const key = schedule.title + "_" + schedule.theaterName;
+
+                        if (!scheduleMap.has(key)) {
+                            scheduleMap.set(key, {
+                                title: schedule.title,
+                                thumbnail: schedule.thumbnail,
+                                grade: schedule.grade,
+                                genre: schedule.genre,
+                                runningTime: schedule.runningTime,
+                                releaseDate: schedule.releaseDate,
+                                theaterName: schedule.theaterName,
+                                timeSlots: []
+                            });
+                        }
+
+                        const start = schedule.startTime.substring(11, 16);
+                        const end = schedule.endTime.substring(11, 16);
+                        scheduleMap.get(key).timeSlots.push(`${start} ~ ${end}`);
+                    });
+
+                    scheduleMap.forEach(schedule => {
+                        const card = document.createElement("div");
+                        card.className = "movie-card";
+                        card.innerHTML = `
+                            <div class="movie-header">
+                                <h3>${schedule.title}</h3>
+                            </div>
+                            <div class="movie-thumbnail">
+                                <img src="${schedule.thumbnail}" alt="${schedule.title} 썸네일">
+                            </div>
+                            <div class="movie-info">
+                                <p><strong>상영관:</strong> ${schedule.theaterName}</p>
+                                <p><strong>등급:</strong> ${schedule.grade}</p>
+                                <p><strong>개봉일:</strong> ${schedule.releaseDate.substring(0, 10)}</p>
+                                <p><strong>장르:</strong> ${schedule.genre}</p>
+                                <p><strong>러닝타임:</strong> ${schedule.runningTime}분</p>
+                            </div>
+                            <div class="time-slots">
+                                ${schedule.timeSlots.map(slot => `<button>${slot}</button>`).join("")}
+                            </div>
+                        `;
+                        movieList.appendChild(card);
+                    });
+                })
+                .catch(error => console.error("스케줄 로딩 실패:", error));
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🎬 메인 페이지 (상영 스케줄)</h1>
+    </header>
+
+    <nav class="genre-filter">
+        <button>액션</button>
+        <button>로맨스</button>
+        <button>호러</button>
+        <button>SF</button>
+    </nav>
+
+    <div class="search-box">
+        <label for="search">제목 검색</label>
+        <input type="text" id="search" placeholder="영화 제목을 입력하세요...">
+    </div>
+
+    <div class="movie-list">
+        <!-- 스케줄 카드가 JS로 삽입됨 -->

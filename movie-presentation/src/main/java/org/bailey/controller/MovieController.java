@@ -3,6 +3,7 @@ package org.bailey.controller;
 import org.bailey.dto.MovieResponseDto;
 import org.bailey.domain.entity.Movie;
 import org.bailey.service.MovieService;
+import org.bailey.service.ScheduleService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,9 +16,11 @@ import java.util.stream.Collectors;
 public class MovieController {
 
     private final MovieService movieService;
+    private final ScheduleService scheduleService;
 
-    public MovieController(MovieService movieService) {
+    public MovieController(MovieService movieService, ScheduleService scheduleService) {
         this.movieService = movieService;
+        this.scheduleService = scheduleService;
     }
 
     @GetMapping

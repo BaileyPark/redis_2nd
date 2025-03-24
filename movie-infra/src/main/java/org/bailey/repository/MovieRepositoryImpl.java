@@ -5,6 +5,7 @@ import org.bailey.domain.repository.MovieRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class MovieRepositoryImpl implements MovieRepository {
@@ -18,5 +19,10 @@ public class MovieRepositoryImpl implements MovieRepository {
     @Override
     public List<Movie> findAll() {
         return jpa.findAll();
+    }
+
+    @Override
+    public Optional<Movie> findById(Long id) {
+        return jpa.findById(id);
     }
 }
