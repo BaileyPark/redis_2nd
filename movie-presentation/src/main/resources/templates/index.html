@@ -67,7 +67,10 @@
                         scheduleMap.get(key).timeSlots.push(`${start} ~ ${end}`);
                     });
 
+                    let count = 0;
                     scheduleMap.forEach(schedule => {
+                        if (count >= 3) return;
+
                         const card = document.createElement("div");
                         card.className = "movie-card";
                         card.innerHTML = `
@@ -89,6 +92,7 @@
                             </div>
                         `;
                         movieList.appendChild(card);
+                        count++;
                     });
                 })
                 .catch(error => console.error("스케줄 로딩 실패:", error));
